@@ -1,0 +1,87 @@
+// Gradient Background
+.bg-gradient-primary {
+  @apply from-[#9676DB] from-0% to-primary to-100% bg-gradient-[188deg];
+}
+
+.bg-gradient-secondary {
+  @apply from-[#683acb26] from-0% to-[#f5f6ff00] to-100% bg-gradient-[180deg];
+}
+
+// Buttons Animation
+.bg-slide {
+  @apply relative z-10 overflow-hidden;
+  &-dark {
+    @apply before:bg-dark after:bg-dark hover:text-dark focus:text-dark;
+  }
+  &-white {
+    @apply before:bg-white after:bg-white hover:text-dark focus:text-dark;
+  }
+  &-gradient-primary {
+    @apply hover:text-dark focus:text-dark;
+    &::after,
+    &::before {
+      @apply bg-gradient-primary;
+    }
+  }
+
+  &::before {
+    @apply absolute left-0 -z-10 h-[120%] w-[110%] -rotate-1 transition-none duration-300 ease-out content-[""] hover:rotate-0 focus:rotate-0;
+  }
+  @apply before:bottom-[110%] hover:before:-bottom-0 hover:before:transition-all focus:before:-bottom-0 focus:before:transition-all;
+
+  &::after {
+    @apply absolute left-0 -z-10 h-[120%] w-[110%] -rotate-1 transition-all duration-300 ease-out content-[""] hover:rotate-0 focus:rotate-0;
+  }
+  @apply after:-bottom-[130%] hover:after:bottom-0 hover:after:top-[110%] hover:after:transition-none focus:after:bottom-0 focus:after:top-[110%] focus:after:transition-none;
+}
+
+// Buttons Style
+.btn {
+  @apply relative inline-block rounded border border-transparent px-6 py-2 text-base font-normal capitalize transition duration-300;
+
+  &-primary {
+    @apply border-transparent from-[#794fd1c7] to-primary text-white bg-gradient-[188deg] hover:border-primary hover:text-white focus:border-primary focus:text-white;
+
+    // Animation
+    @apply border outline outline-1 outline-offset-0 outline-primary/50 transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] hover:border hover:border-solid hover:outline-offset-8 hover:outline-transparent focus:border-solid focus:outline-offset-8 focus:outline-transparent;
+  }
+
+  &-outline {
+    @apply border-transparent bg-transparent text-dark hover:border-border focus:border-border;
+    // Animation
+    @apply border outline outline-1 outline-offset-0 outline-border transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] hover:border hover:border-solid hover:outline-offset-8 hover:outline-transparent focus:border-solid focus:outline-offset-8 focus:outline-transparent;
+  }
+  &-outline-sky {
+    @apply border-border-sky bg-transparent text-dark hover:border-primary/20 hover:text-white;
+
+    // Animation
+    @extend .bg-slide;
+    @extend .bg-slide-gradient-primary;
+  }
+  &-outline-white {
+    @apply border-white bg-transparent text-white;
+
+    // Animation
+    @extend .bg-slide;
+    @extend .bg-slide-white;
+  }
+
+  &-white {
+    @apply relative overflow-visible bg-white text-dark;
+
+    // Animation
+    @apply border outline outline-1 outline-offset-0 outline-white transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] hover:border hover:border-solid hover:outline-offset-8 hover:outline-transparent focus:border-solid focus:outline-offset-8 focus:outline-transparent;
+  }
+
+  &.btn-sm {
+    @apply px-3 py-2 text-sm;
+  }
+  &.btn-md {
+    @apply px-3 py-2.5 text-base;
+  }
+
+  // Btns Reset (Prevent Icon Click Inside Buttons)
+  & > * {
+    @apply pointer-events-none;
+  }
+}

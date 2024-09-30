@@ -1,0 +1,208 @@
+---
+import Logo from "@/components/Logo.astro";
+import config from "@/config/config.json";
+import menu from "@/config/menu.json";
+
+export interface ChildNavigationLink {
+  name: string;
+  url: string;
+}
+
+export interface NavigationLink {
+  name: string;
+  url: string;
+  hasChildren?: boolean;
+  children?: ChildNavigationLink[];
+}
+
+const { main }: { main: NavigationLink[] } = menu;
+const { navigation_button, settings } = config;
+const { pathname } = Astro.url;
+---
+
+<header class={`header z-30 ${settings.sticky_header && "sticky top-0"}`}>
+  <div class="container">
+    <nav class="navbar">
+      <!-- logo -->
+      <div class="order-0 mr-auto">
+        <Logo />
+      </div>
+      <!-- navbar toggler -->
+      <button class="navbar-toggler group relative" aria-label="navbar toggler">
+        <div
+          class="relative flex h-[30px] w-[30px] transform items-center justify-center overflow-hidden rounded-full ring-0 transition-all duration-200"
+        >
+          <div
+            class="flex h-[15px] w-[18px] origin-center transform flex-col justify-between overflow-hidden transition-all duration-300 group-[.active]:h-[21px]"
+          >
+            <div
+              class="h-[2px] w-7 origin-left transform bg-dark transition-all duration-300 group-[.active]:translate-x-10"
+            >
+            </div>
+            <div
+              class="h-[2px] w-7 transform rounded bg-dark transition-all delay-75 duration-300 group-[.active]:translate-x-10"
+            >
+            </div>
+            <div
+              class="h-[2px] w-7 origin-left transform bg-dark transition-all delay-150 duration-300 group-[.active]:translate-x-10"
+            >
+            </div>
+            <div
+              class="absolute top-2.5 flex w-0 -translate-x-10 transform items-center justify-between transition-all duration-500 group-[.active]:w-12 group-[.active]:translate-x-0"
+            >
+              <div
+                class="absolute h-[2px] w-5 rotate-0 transform bg-dark transition-all delay-300 duration-500 group-[.active]:rotate-45"
+              >
+              </div>
+              <div
+                class="absolute h-[2px] w-5 -rotate-0 transform bg-dark transition-all delay-300 duration-500 group-[.active]:-rotate-45"
+              >
+              </div>
+            </div>
+          </div>
+        </div>
+      </button>
+      <!-- /navbar toggler -->
+
+      <ul
+        id="nav-menu"
+        class="navbar-nav order-3 mx-auto hidden w-full lg:order-1 lg:flex lg:w-auto lg:space-x-2 xl:space-x-8"
+      >
+        {
+          main.map((menu) => (
+            <>
+              {menu.hasChildren ? (
+                <li class="nav-item nav-dropdown group relative">
+                  <span
+                    class={`nav-link dropdown-toggle inline-flex items-center ${
+                      menu.children?.map(({ url }) => url).includes(pathname) ||
+                      menu.children
+                        ?.map(({ url }) => `${url}/`)
+                        .includes(pathname)
+                        ? "active"
+                        : ""
+                    }`}
+                  >
+                    {menu.name}
+                    <svg
+                      class="h-4 w-4 fill-current arrow-icon inline-block"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </span>
+                  <ul class="nav-dropdown-list max-lg:hidden lg:invisible lg:absolute lg:translate-y-2 lg:opacity-0 lg:transition-all lg:duration-300 lg:group-hover:visible lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+                    {menu.children?.map((child) => (
+                      <li class="nav-dropdown-item">
+                        <a
+                          href={child.url}
+                          aria-label={child.name}
+                          class={`nav-dropdown-link ${
+                            (pathname === `${child.url}/` ||
+                              pathname === child.url) &&
+                            "active"
+                          }`}
+                        >
+                          {child.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li class="nav-item">
+                  <a
+                    href={menu.url}
+                    class={`nav-link ${
+                      (pathname === `${menu.url}/` || pathname === menu.url) &&
+                      "active"
+                    }`}
+                  >
+                    {menu.name}
+                  </a>
+                </li>
+              )}
+            </>
+          ))
+        }
+        {
+          navigation_button.enable && (
+            <li class="mt-2 inline-block lg:hidden">
+              <a class="btn btn-outline btn-sm" href={navigation_button.link}>
+                {navigation_button.label}
+              </a>
+            </li>
+          )
+        }
+      </ul>
+
+      <div class="order-1 ml-auto hidden md:order-2 lg:ml-0 lg:inline-block">
+        {
+          navigation_button.enable && (
+            <div class="order-1 ml-auto hidden md:order-2 lg:ml-0 lg:inline-block">
+              <a class="btn btn-outline" href={navigation_button.link}>
+                {navigation_button.label}
+                <i class="ml-1.5">
+                  <svg
+                    class="inline-block"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="19"
+                    viewBox="0 -960 960 960"
+                    width="19"
+                  >
+                    <path d="M664.271-452.116H188.078v-55.96h476.193L440.155-732.192 480-771.922 771.922-480 480-188.078l-39.845-39.73 224.116-224.308Z" />
+                  </svg>
+                </i>
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    // Navbar Toggler
+    const navbarToggler = document.querySelector(
+      ".navbar-toggler"
+    ) as HTMLElement | null;
+    const navbarMenu = document.querySelector(
+      ".navbar-nav"
+    ) as HTMLElement | null;
+
+    navbarToggler?.addEventListener("click", () => {
+      navbarToggler.classList.toggle("active");
+      if (navbarMenu) {
+        navbarMenu.classList.toggle("active");
+      }
+    });
+
+    // Header Sticky Mobile
+    const header = document.querySelector(".header") as HTMLElement | null;
+
+    window.addEventListener("scroll", () => {
+      if (header) {
+        if (window.scrollY > 0) {
+          header.classList.add("header-fixed-top");
+        } else {
+          header.classList.remove("header-fixed-top");
+        }
+      }
+    });
+  });
+
+  // Dropdown Menu Toggler For Mobile
+  const dropdownMenuToggler = document.querySelectorAll(
+    ".nav-dropdown > .nav-link"
+  ) as NodeListOf<HTMLElement>;
+
+  dropdownMenuToggler.forEach((toggler) => {
+    toggler?.addEventListener("click", (e: Event) => {
+      const target = e.target as HTMLElement;
+      target.parentElement?.classList.toggle("active");
+    });
+  });
+</script>

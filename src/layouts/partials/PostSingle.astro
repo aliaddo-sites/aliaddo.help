@@ -1,0 +1,135 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import Disqus from "@/helpers/Disqus";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import dateFormat from "@/lib/utils/dateFormat";
+import similarItems from "@/lib/utils/similarItems";
+import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
+import { FaRegCalendar } from "react-icons/fa6";
+import ImageMod from "../components/ImageMod.astro";
+import Share from "../components/Share.astro";
+import CallToAction from "./CallToAction.astro";
+
+const COLLECTION_FOLDER = "blog";
+const { post } = Astro.props;
+
+const posts = await getSinglePage(COLLECTION_FOLDER);
+const similarPosts = similarItems(post, posts);
+const { Content } = await post.render();
+const {
+  title,
+  description,
+  author,
+  author_image,
+  categories,
+  image,
+  date,
+  tags,
+} = post.data;
+---
+
+<section class="section-md" data-aos="fade-in">
+  <div class="container">
+    <div class="row justify-center">
+      <article class="lg:col-10">
+        <h1 set:html={markdownify(title)} class="mb-4" />
+        <div class="mb-10 flex flex-wrap items-center gap-4">
+          <div class="mr-auto">
+            <img
+              src={author_image}
+              alt="author image"
+              class="mr-2 inline-block h-8 w-8 rounded-full"
+            />
+            <span class="font-secondary text-lg font-semibold">
+              {author}
+            </span>
+          </div>
+          <div class="inline-block">
+            <FaRegCalendar className="mr-1 -mt-1 inline-block" />
+            <span class="text-sm">{dateFormat(date)}</span>
+          </div>
+          <div
+            class="inline-block rounded bg-secondary px-3 py-1 text-sm font-medium capitalize"
+          >
+            <li class="mr-4 inline-block">
+              {
+                categories.map((category: string, index: number) => (
+                  <a href={`/categories/${slugify(category)}`}>
+                    {humanize(category)}
+                    {index !== categories.length - 1 && ","}
+                  </a>
+                ))
+              }
+            </li>
+          </div>
+        </div>
+
+        {
+          image && (
+            <div class="mb-10">
+              <ImageMod
+                src={image}
+                height={500}
+                width={1200}
+                alt={title}
+                class="w-full rounded"
+                format="webp"
+              />
+            </div>
+          )
+        }
+
+        <div class="content mb-10">
+          <Content />
+        </div>
+
+        <div class="row items-start justify-between">
+          <div class="mb-10 flex items-center lg:col-5 lg:mb-0">
+            <h5 class="mr-3">Tags :</h5>
+            <ul>
+              {
+                tags.map((tag: string) => (
+                  <li class="inline-block">
+                    <a
+                      class="inline-block rounded bg-secondary px-3 py-1 text-sm font-medium capitalize mr-1"
+                      href={`/tags/${slugify(tag)}`}
+                    >
+                      {humanize(tag)}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="flex items-center lg:col-4">
+            <h5 class="mr-3">Share :</h5>
+            <Share
+              className="social-icons-2"
+              title={title}
+              description={description}
+              slug={post.slug}
+            />
+          </div>
+        </div>
+
+        <Disqus className="mt-20" client:load />
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Related posts -->
+<section class="section section-gradient pb-0">
+  <div class="container">
+    <div class="section-heading-shape" aria-label="shape" data-aos="fade-up-sm">
+    </div>
+    <h2 class="mb-6" data-aos="fade-up-sm" data-aos-delay="50">
+      Related Posts
+    </h2>
+    <div class="row gy-4" data-aos="fade-up-sm" data-aos-delay="150">
+      {similarPosts.slice(0, 3).map((post) => <BlogCard data={post} />)}
+    </div>
+  </div>
+</section>
+
+<CallToAction />

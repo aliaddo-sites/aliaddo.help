@@ -1,0 +1,91 @@
+---
+import Social from "@/components/Social.astro";
+import VideoModal from "@/components/VideoModal.astro";
+import config from "@/config/config.json";
+import menu from "@/config/menu.json";
+import social from "@/config/social.json";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const { copyright, phone, email } = config.params;
+const { footer, quickLinks } = menu;
+---
+
+<footer class="footer bg-theme-dark">
+  <div class="container" data-aos="fade-in">
+    <div class="row gy-5 mt-0 justify-between py-10 lg:gy-4">
+      <div class="sm:col-8 md:col-4 lg:col-3">
+        <img
+          class="mb-6"
+          width="180"
+          src="./images/logo-light.png"
+          alt="saaspro"
+        />
+        <p>
+          Lorem ipsum dolor sit sed dmi amet consectetur adipiscing. Cdo tellus
+          sed condimentum volutpat.
+        </p>
+        <Social source={social?.main} className="social-icons" />
+      </div>
+      <div class="sm:col-4 md:col-3 lg:col-auto">
+        <h3 class="h5 mb-6 font-medium text-white">Company</h3>
+        <ul class="flex flex-col gap-3 [&>li>a:hover]:text-white">
+          {
+            footer.map((item) => (
+              <li>
+                <a href={item.url}>{item.name}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="sm:col-4 md:col-3 lg:col-auto">
+        <h3 class="h5 mb-6 font-medium text-white">Quick Link</h3>
+        <ul class="flex flex-col gap-3 [&>li>a:hover]:text-white">
+          {
+            quickLinks.map((item) => (
+              <li>
+                <a href={item.url}>{item.name}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="sm:col-4 md:col-4 lg:col-auto">
+        <h3 class="h5 mb-6 font-medium text-white">Our Locations</h3>
+        <ul class="flex flex-col gap-3 [&>li>a:hover]:text-white">
+          <li><a href="#">USA - Headquarters</a></li>
+          <li><a href="#">Canada</a></li>
+          <li><a href="#">Europe</a></li>
+          <li><a href="#">India</a></li>
+        </ul>
+      </div>
+      <div class="sm:col-4 md:col-7 lg:col-auto">
+        <h3 class="h5 mb-6 font-medium text-white">Contact us</h3>
+        <ul class="flex flex-col gap-3 [&>li>a:hover]:text-white">
+          <li>
+            Phone:
+            <br />
+            <a href={`tel:${phone}`} set:html={markdownify(phone)} />
+          </li>
+          <li>
+            Email:
+            <br />
+            <a href={`mailto:${email}`} set:html={markdownify(email)} />
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright Text -->
+    <div
+      class="gradient gradient-horizontal gradient-to-center py-7 after:top-0 after:via-white/20"
+    >
+      <div
+        class="text-light/70 md:text-center has-[link]:underline"
+        set:html={markdownify(copyright)}
+      />
+    </div>
+  </div>
+</footer>
+
+<VideoModal />
