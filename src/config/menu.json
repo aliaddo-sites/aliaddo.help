@@ -1,0 +1,103 @@
+{
+  "main": [
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "About",
+      "url": "/about"
+    },
+    {
+      "name": "Features",
+      "url": "/features"
+    },
+    {
+      "name": "Solutions",
+      "url": "/solutions"
+    },
+    {
+      "name": "Case Study",
+      "url": "/case-study"
+    },
+    {
+      "name": "Pages",
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Elements",
+          "url": "/elements"
+        },
+        {
+          "name": "Pricing",
+          "url": "/pricing"
+        },
+        {
+          "name": "Contact",
+          "url": "/contact"
+        },
+        {
+          "name": "Blog",
+          "url": "/blog"
+        },
+        {
+          "name": "Categories",
+          "url": "/categories"
+        },
+        {
+          "name": "Tags",
+          "url": "/tags"
+        },
+        {
+          "name": "404 Page",
+          "url": "/404"
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "name": "About",
+      "url": "/about"
+    },
+    {
+      "name": "Features",
+      "url": "/features"
+    },
+    {
+      "name": "Solutions",
+      "url": "/solutions"
+    },
+    {
+      "name": "Case Study",
+      "url": "/case-study"
+    },
+    {
+      "name": "Privacy Policy",
+      "url": "/privacy-policy"
+    }
+  ],
+  "quickLinks": [
+    {
+      "name": "Careers",
+      "url": "/careers"
+    },
+    {
+      "name": "Pricing",
+      "url": "/pricing"
+    },
+    {
+      "name": "Our Blog",
+      "url": "/blog"
+    },
+    {
+      "name": "Subscribe",
+      "url": "/subscribe"
+    },
+    {
+      "name": "Privacy",
+      "url": "/privacy"
+    }
+  ]
+}

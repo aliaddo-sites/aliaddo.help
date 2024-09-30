@@ -1,0 +1,54 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+
+const { data } = Astro.props;
+const { title, service, website, logo, location, company } = data.data;
+---
+
+<div class="md:col-6 xl:col-4">
+  <div class="min-h-full rounded-xl border border-border p-5">
+    <div
+      class="flex h-[150px] md:h-[200px] w-full max-w-full items-center justify-center rounded-xl bg-primary/5 px-10"
+    >
+      <img src={logo} width="200" alt={title} />
+    </div>
+    <div class="mt-6">
+      <h2 class="h4 mb-4">
+        <a
+          href={`/case-study/${data.slug}`}
+          class="hover:underline"
+          set:html={markdownify(title)}
+        />
+      </h2>
+      <ul class="flex flex-col gap-y-2 mb-8 border-t pt-4">
+        <li class="flex capitalize">
+          <div class="flex-[140px] opacity-70">Service</div>
+          <div class="flex-[50px]">:</div>
+          <div class="w-full text-black" set:html={markdownify(service)} />
+        </li>
+        <li class="flex capitalize">
+          <div class="flex-[140px] opacity-70">Website</div>
+          <div class="flex-[50px]">:</div>
+          <a
+            href={website}
+            target="_blank"
+            class="w-full underline text-black break-all lowercase">{website}</a
+          >
+        </li>
+        <li class="flex capitalize">
+          <div class="flex-[140px] opacity-70">Location</div>
+          <div class="flex-[50px]">:</div>
+          <div class="w-full text-black" set:html={markdownify(location)} />
+        </li>
+        <li class="flex capitalize">
+          <div class="flex-[140px] opacity-70">Company</div>
+          <div class="flex-[50px]">:</div>
+          <div class="w-full text-black" set:html={markdownify(company)} />
+        </li>
+      </ul>
+      <a href={`/case-study/${data.slug}`} class="btn btn-outline">
+        View Case Study
+      </a>
+    </div>
+  </div>
+</div>

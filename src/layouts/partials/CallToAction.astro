@@ -1,0 +1,79 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import { getEntry } from "astro:content";
+
+const CTA = await getEntry("sections", "call-to-action");
+---
+
+{
+  CTA.data.enable && (
+    <section class="section">
+      <div class="container">
+        <div class="bg-gradient-primary relative overflow-hidden rounded-2xl px-2 py-10 text-white md:px-10 md:py-16">
+          <div class="mx-auto text-center lg:col-7" data-aos="fade-up-sm">
+            <div class="section-heading-shape shape-white" />
+            <h2
+              class="mb-6 text-inherit"
+              set:html={markdownify(CTA.data.title)}
+            />
+            <p
+              class="mb-5 text-light"
+              set:html={markdownify(CTA.data.description)}
+            />
+            <a class="btn btn-white" href="/contact">
+              Get Started Now
+              <i class="ml-1.5">
+                <svg
+                  class="inline-block"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="19"
+                  viewBox="0 -960 960 960"
+                  width="19"
+                >
+                  <path d="M664.271-452.116H188.078v-55.96h476.193L440.155-732.192 480-771.922 771.922-480 480-188.078l-39.845-39.73 224.116-224.308Z" />
+                </svg>
+              </i>
+            </a>
+          </div>
+
+          {/* Shapes  */}
+          <div class="shapes pointer-events-none -z-10 select-none">
+            {/* Left Top  */}
+            <div
+              class="absolute -left-12 -top-24 hidden h-44 w-44 rounded-3xl bg-white/5 pr-16 pt-16 sm:-top-20 sm:block"
+              aria-label="shape"
+              data-aos="fade-down"
+            />
+            {/* Left Bottom  */}
+            <div
+              class="absolute -bottom-10 left-0 h-44 w-52 rounded-r-3xl bg-white/5 pr-10 pt-10"
+              data-aos="fade-up"
+            >
+              <div
+                class="h-44 w-full rounded-r-3xl bg-white/5"
+                aria-label="shape"
+                data-aos="fade-up"
+                data-aos-delay="50"
+              />
+            </div>
+
+            {/* Right Top  */}
+            <div
+              class="slide-in slide-in-cta first absolute -top-40 right-[4%] h-[140%] w-5 rotate-[-55deg] bg-white/5 pr-16 pt-16 md:right-[9%] md:w-10"
+              aria-label="shape"
+              data-aos=""
+              data-aos-duration="1200"
+            />
+            <div
+              class="slide-in slide-in-cta second absolute -top-20 right-[4%] h-[170%] w-5 rotate-[30deg] bg-white/5 pr-16 pt-16 sm:-top-40 md:right-[5%] md:w-10"
+              aria-label="shape"
+              data-aos=""
+              data-aos-duration="1200"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

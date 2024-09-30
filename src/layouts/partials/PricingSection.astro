@@ -1,0 +1,192 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+
+const { pricing } = Astro.props;
+const { enable, title, pricing_tabs, pricing_tables } = pricing;
+---
+
+{
+  enable && (
+    <section class={`section section-gradient pb-0`}>
+      <div class="container">
+        <div class="row justify-center text-center">
+          <div class="lg:col-7" data-aos="fade-up-sm">
+            <div class="section-heading-shape" aria-label="shape" />
+            <h2 class="mb-6" set:html={markdownify(title)} />
+          </div>
+        </div>
+
+        <div class="row gy-5">
+          <div
+            class="sticky-pricing-type sticky-element col-12"
+            data-aos="fade-up-sm"
+            data-aos-delay="50"
+          >
+            {/* Pricing Type Toggler  */}
+            <div class="pricing-switcher-wrapper bg-white sm:rounded-lg">
+              <div class="rounded-full border border-theme-dark/10">
+                <div class="pricing-switcher">
+                  <div class="fieldset">
+                    <input
+                      type="radio"
+                      name="group-a"
+                      class="toggler-switcher-m"
+                      value="monthly"
+                      id="monthly-1"
+                    />
+                    <label
+                      for="monthly-1"
+                      set:html={markdownify(pricing_tabs.monthly)}
+                    />
+                    <input
+                      type="radio"
+                      name="group-a"
+                      class="toggler-switcher-y"
+                      value="annualy"
+                      id="annualy-1"
+                      checked
+                    />
+                    <label
+                      for="annualy-1"
+                      set:html={markdownify(pricing_tabs.annually)}
+                    />
+                    <span class="switch" />
+                  </div>
+                </div>
+              </div>
+              {pricing_tabs?.discounts.enable && (
+                <span class="ml-2 inline-block font-secondary font-medium text-red-500">
+                  {pricing_tabs.discounts.discount}% Flat Off
+                </span>
+              )}
+            </div>
+          </div>
+          {/* Pricing Item  */}
+          {pricing_tables?.map((table: any) => (
+            <div class="col-12" data-aos="fade-in" data-aos-delay="100">
+              <div
+                class={`${table.popular && "bg-gradient-primary text-white border-none"} text-dark relative mx-px overflow-hidden rounded-3xl px-6 sm:mx-0 sm:px-10 border border-primary/20`}
+              >
+                <div class="row">
+                  <div class="lg:col-6">
+                    <div
+                      class={`gradient ${table.popular ? "gradient-light " : "gradient-sky"} max-lg:gradient-to-center lg:gradient-to-bottom max-lg:gradient-horizontal lg:gradient-vertical py-10 text-center after:right-0 max-lg:after:bottom-0 lg:py-20 lg:after:from-70%`}
+                    >
+                      <h3
+                        class="mb-2 text-inherit"
+                        set:html={markdownify(table.title)}
+                      />
+                      <p
+                        class="text-inherit/30 mb-5"
+                        set:html={markdownify(table.description)}
+                      />
+                      <div
+                        class={`h1 bottom-line-shape mb-8 pb-2 font-secondary after:left-1/2 after:-translate-x-1/2 ${table.popular ? "after:bg-white" : "after:bg-primary"}`}
+                      >
+                        {table.prefix}
+                        <span
+                          class="data-count"
+                          data-count-monthly={table.monthly_price}
+                          data-count-annually={table.annually_price}
+                        >
+                          {table.annually_price}
+                        </span>
+                        <small
+                          class={`${table.popular ? "text-inherit/30" : "text-inherit"} text-base line-through`}
+                        >
+                          {table.prefix}
+                          {table.annually_price}
+                        </small>
+                      </div>
+                      {table.button.enable && (
+                        <a
+                          href={table.button.link}
+                          class={`btn ${table.popular ? "btn-white" : "btn-outline-sky"}`}
+                        >
+                          {table.button.label}
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <div class="lg:col-6">
+                    <div class="py-10 lg:py-20">
+                      <p
+                        class="mb-8"
+                        set:html={markdownify(table?.features.title)}
+                      />
+                      <ul
+                        class={`list list-check mb-8 ${table.popular && "list-color-white"}`}
+                      >
+                        {table.features?.list.map((l: string) => (
+                          <li set:html={markdownify(l)} />
+                        ))}
+                      </ul>
+                      {table.features?.button.enable && table.popular && (
+                        <a
+                          href={table.features.button.link}
+                          class="btn btn-outline-white"
+                          set:html={markdownify(table.features.button.label)}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pricing Tag  */}
+                {table?.popular && (
+                  <div class="absolute left-[-55px] top-[15px] mb-0 w-[200px] rotate-[-25deg] bg-secondary px-4 py-1 text-center text-[10px] font-bold uppercase tracking-[3px] text-dark sm:-left-10 sm:top-10 sm:-rotate-45 sm:text-sm sm:tracking-[6px]">
+                    POPULAR
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  // Pricing Counter
+  function pricingInit(): void {
+    const toggleSwitcherM = document.querySelector(
+      ".toggler-switcher-m"
+    ) as HTMLInputElement | null;
+    const toggleSwitcherY = document.querySelector(
+      ".toggler-switcher-y"
+    ) as HTMLInputElement | null;
+
+    function animText(status: "yearly" | "monthly"): void {
+      document
+        .querySelectorAll<HTMLElement>(".data-count")
+        .forEach((element) => {
+          let targetCount: number;
+          if (status === "yearly" && element.dataset.countAnnually) {
+            element.innerHTML = element.dataset.countAnnually;
+            targetCount = parseInt(element.dataset.countAnnually);
+          } else if (status === "monthly" && element.dataset.countMonthly) {
+            element.innerHTML = element.dataset.countMonthly;
+            targetCount = parseInt(element.dataset.countMonthly);
+          } else {
+            return;
+          }
+
+          let counter = 0;
+          const animation = setInterval(() => {
+            counter += 10;
+            element.textContent = Math.ceil(counter).toString();
+            if (counter >= targetCount) {
+              clearInterval(animation);
+              element.textContent = targetCount.toString();
+            }
+          }, 1);
+        });
+    }
+
+    toggleSwitcherM?.addEventListener("change", () => animText("monthly"));
+    toggleSwitcherY?.addEventListener("change", () => animText("yearly"));
+  }
+
+  pricingInit();
+</script>

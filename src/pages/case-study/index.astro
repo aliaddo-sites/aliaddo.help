@@ -1,0 +1,27 @@
+---
+import CaseStudyCard from "@/components/CaseStudyCard.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import PageHeader from "@/partials/PageHeader.astro";
+
+const caseStudies = await getSinglePage("case-study");
+---
+
+<Base>
+  <PageHeader title="Case Study" />
+
+  <section class="section-sm pb-0">
+    <div class="container">
+      <div class="row g-4" data-aos="fade-up-sm" data-aos-delay="150">
+        {
+          caseStudies.map((caseStudy: any) => (
+            <CaseStudyCard data={caseStudy} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+</Base>
