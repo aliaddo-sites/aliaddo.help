@@ -8,7 +8,7 @@ import PricingSection from "@/partials/PricingSection.astro";
 import { getEntry } from "astro:content";
 import { FaInfo } from "react-icons/fa6";
 
-const pricingIndex = await getEntry("pricing", "-index");
+const pricingIndex = await getEntry("precios", "-index");
 const { pricing, pricing_table_data } = pricingIndex.data;
 const { tableHead, tableBody, title, tableFooter } = pricing_table_data;
 ---

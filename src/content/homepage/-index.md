@@ -1,17 +1,17 @@
 ---
 # Banner
 banner:
-  title: "Welcome Saaspro, transparency is more than best friend."
-  content: "This features a stunning web design a mental healthcare website offers sessions. The design is done soft blue green colors."
-  badge: "Explore How To Use Saaspro"
+  title: "Aliaddo Help, escala la experiencia del soporte."
+  content: "Mejora las relaciones con tus clientes con un sistema de soporte fácil e intuitivo."
+  badge: "Explora Aliaddo Help"
   image: "/images/banner.png"
   button:
     enable: true
-    label: "Get Started Now"
-    link: "/contact"
+    label: "Empieza ahora"
+    link: "/contactanos"
   video_button:
     enable: true
-    label: "Watch Demo"
+    label: "Ver Demo"
     link: "https://www.youtube.com/embed/dyZcRRWiuuw?autoplay=1&mute=0"
 
 # Brands Logo
