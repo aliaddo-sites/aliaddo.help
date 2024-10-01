@@ -1,0 +1,200 @@
+---
+import Social from "@/components/Social.astro";
+import config from "@/config/config.json";
+import social from "@/config/social.json";
+import Base from "@/layouts/Base.astro";
+import PageHeader from "@/partials/PageHeader.astro";
+import { getEntry } from "astro:content";
+import { FaLocationArrow } from "react-icons/fa";
+import {
+  FaCartShopping,
+  FaEnvelope,
+  FaHeadset,
+  FaLaptop,
+  FaPhone,
+} from "react-icons/fa6";
+
+const contact = await getEntry("contactanos", "-index");
+const {
+  contact_form_action,
+  phone,
+  email,
+  address,
+}: {
+  contact_form_action: string;
+  phone: string;
+  email: string;
+  address: string;
+} = config.params;
+const { title, description, meta_title, image } = contact.data;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <PageHeader title={title} />
+
+  <section class="section section-gradient rounded-none">
+    <div class="container">
+      <div class="mb-10 rounded-md bg-white p-6 lg:mb-20 lg:px-10 lg:py-10">
+        <div class="row">
+          <div class="order-2 lg:col-7 lg:order-1">
+            <div
+              class="gradient gradient-sky max-lg:gradient-to-center lg:gradient-to-bottom max-lg:gradient-horizontal lg:gradient-vertical after:right-0 max-lg:mt-10 max-lg:pt-10 max-lg:after:top-0 lg:pe-10"
+            >
+              <form method="post" class="row gy-4" action={contact_form_action}>
+                <div class="sm:col-6">
+                  <label class="form-label" for="name">Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter Your Name"
+                    name="name"
+                    id="name"
+                    class="form-input"
+                  />
+                </div>
+                <div class="sm:col-6">
+                  <label class="form-label" for="email">Email Address</label>
+                  <input
+                    type="text"
+                    placeholder="Enter Your Email"
+                    name="email"
+                    id="email"
+                    class="form-input"
+                  />
+                </div>
+                <div class="sm:col-6">
+                  <label class="form-label" for="phone">Phone</label>
+                  <input
+                    type="tel"
+                    placeholder="Enter Your Phone"
+                    name="phone"
+                    id="phone"
+                    class="form-input"
+                  />
+                </div>
+                <div class="sm:col-6">
+                  <label class="form-label" for="company">Company</label>
+                  <input
+                    type="text"
+                    placeholder="Enter Your Email"
+                    name="company"
+                    id="company"
+                    class="form-input"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="message">Message</label>
+                  <textarea
+                    rows="6"
+                    name="message"
+                    id="message"
+                    placeholder="Hey! I Would Like To Get In Touch Because......."
+                    class="form-input"></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-md btn-primary w-full" type="submit">
+                    Send Message
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="order-1 lg:col-5 lg:order-2">
+            <div>
+              <div class="section-heading-shape" aria-label="shape"></div>
+              <h2 class="mb-6">Get in touch today!</h2>
+              <p class="mb-4 lg:mb-8">
+                labore consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua
+              </p>
+              <Social
+                source={social?.main}
+                className="social-icons-2 mt-0 justify-start"
+              />
+              <ul class="mt-12 flex flex-col gap-y-6">
+                <li class="flex items-start gap-x-4">
+                  <div class="mt-1"><FaPhone /></div>
+                  <div>
+                    <h3 class="h5 mb-1.5">Phone Number</h3>
+                    <a class="text-sm underline" href={`tel:${phone}`}>
+                      {phone}
+                    </a>
+                  </div>
+                </li>
+                <li class="flex items-start gap-x-4">
+                  <div class="mt-1"><FaEnvelope /></div>
+                  <div>
+                    <h3 class="h5 mb-1.5">Email</h3>
+                    <a class="text-sm underline" href={`mailto:${email}`}>
+                      {email}
+                    </a>
+                  </div>
+                </li>
+                <li class="flex items-start gap-x-4">
+                  <div class="mt-1"><FaLocationArrow /></div>
+                  <div>
+                    <h3 class="h5 mb-1.5">Address</h3>
+                    <span class="text-sm">
+                      {address}
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gy-4">
+        <div class="md:col-6 lg:col-4">
+          <div
+            class="bg-gradient-primary flex min-h-full flex-col items-center gap-y-4 rounded-xl px-7 py-6 text-center text-white sm:px-14 sm:py-10"
+          >
+            <div
+              class="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-white/10 text-xl"
+            >
+              <FaCartShopping />
+            </div>
+            <h3 class="h4 text-inherit">Sales</h3>
+            <p class="opacity-60">
+              Need help? Our support team is available to answer of 24x7
+            </p>
+          </div>
+        </div>
+        <div class="md:col-6 lg:col-4">
+          <div
+            class="bg-gradient-primary flex min-h-full flex-col items-center gap-y-4 rounded-xl px-7 py-6 text-center text-white sm:px-14 sm:py-10"
+          >
+            <div
+              class="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-white/10 text-center text-xl"
+            >
+              <FaHeadset />
+            </div>
+            <h3 class="h4 text-inherit">24X7 Support</h3>
+            <p class="opacity-60">
+              Have an out of the box idea for a new Al Demo to add.
+            </p>
+          </div>
+        </div>
+        <div class="md:col-6 lg:col-4">
+          <div
+            class="bg-gradient-primary flex min-h-full flex-col items-center gap-y-4 rounded-xl px-7 py-6 text-center text-white sm:px-14 sm:py-10"
+          >
+            <div
+              class="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-white/10 text-center text-xl"
+            >
+              <FaLaptop />
+            </div>
+            <h3 class="h4 text-inherit">Request Demo</h3>
+            <p class="opacity-60">
+              Need help? Our support team is available to answer of 24x7
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

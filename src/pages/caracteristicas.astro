@@ -1,0 +1,107 @@
+---
+import Base from "@/layouts/Base.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import FeaturesSection from "@/partials/FeaturesSection.astro";
+import PageHeader from "@/partials/PageHeader.astro";
+import { getEntry } from "astro:content";
+
+const featuresPageData = await getEntry("caracteristicas", "-index");
+const featuresData = await getEntry("sections", "features");
+---
+
+<Base {...featuresPageData.data}>
+  <PageHeader title={featuresPageData.data.title} />
+  <FeaturesSection features={featuresData.data} />
+
+  <!-- feature -->
+  {
+    featuresPageData.data.enable && (
+      <>
+        {featuresPageData.data.feature_items.map((feature: any, i: number) => (
+          <section
+            class={`section ${i % 2 === 0 ? "section-gradient pb-0" : ""}`}
+          >
+            <div class="container">
+              <div
+                class={`row items-center ${i % 2 === 0 ? "max-lg:gy-5 max-lg:flex-col-reverse" : "max-lg:gy-5"}`}
+              >
+                <div class={`lg:col-6 ${i % 2 === 0 ? "" : "order-last"}`}>
+                  <div
+                    class="section-heading-shape"
+                    aria-label="shape"
+                    data-aos="fade-up-sm"
+                  />
+                  <h2 class="mb-6" data-aos="fade-up-sm" data-aos-delay="50">
+                    {feature.title}
+                  </h2>
+                  <p class="mb-6" data-aos="fade-up-sm" data-aos-delay="150">
+                    {feature.description}
+                  </p>
+                  <div
+                    class="gradient gradient-horizontal gradient-to-right w-full"
+                    aria-label="horizontal line"
+                  />
+                  {feature.lists && (
+                    <ul
+                      class="list list-check pt-6"
+                      data-aos="fade-up-sm"
+                      data-aos-delay="50"
+                    >
+                      {feature.lists.map((listItem: any) => (
+                        <li>{listItem}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {feature.items && (
+                    <div class="flex gap-5 pt-6 max-sm:flex-wrap">
+                      {feature.items.map((item: any, index: number) => (
+                        <div
+                          class="flex items-start gap-4"
+                          data-aos="fade-up-sm"
+                          data-aos-delay={250 + index * 50}
+                        >
+                          <span class="block h-7 min-w-[28px] rounded-full border border-primary/10 bg-primary/5 text-center text-sm leading-7 text-primary">
+                            {index + 1}
+                          </span>
+                          <div>
+                            <h3 class="h5 mb-3">{item.title}</h3>
+                            <p>{item.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {feature.button!.enable && (
+                    <div data-aos="fade-up-sm" data-aos-delay="150">
+                      <a
+                        href={feature.button!.link}
+                        class="btn btn-primary mt-8"
+                      >
+                        {feature.button!.label}
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <div
+                  class={`lg:col-6 ${i % 2 === 0 ? "order-last" : ""}`}
+                  data-aos="fade-down-sm"
+                  data-aos-delay="250"
+                >
+                  <img
+                    width="576"
+                    class="mx-auto lg:mx-0 lg:pl-8 xl:pl-16"
+                    src={feature.image}
+                    alt="feature"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+        ))}
+      </>
+    )
+  }
+  <!-- /.feature -->
+
+  <CallToAction />
+</Base>

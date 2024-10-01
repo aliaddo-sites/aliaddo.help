@@ -9,8 +9,8 @@
       "url": "/about"
     },
     {
-      "name": "Features",
-      "url": "/features"
+      "name": "Características",
+      "url": "/caracteristicas"
     },
     {
       "name": "Solutions",
@@ -30,12 +30,12 @@
           "url": "/elements"
         },
         {
-          "name": "Pricing",
-          "url": "/pricing"
+          "name": "Precios",
+          "url": "/precios"
         },
         {
           "name": "Contact",
-          "url": "/contact"
+          "url": "/contactanos"
         },
         {
           "name": "Blog",
@@ -62,8 +62,8 @@
       "url": "/about"
     },
     {
-      "name": "Features",
-      "url": "/features"
+      "name": "Características",
+      "url": "/caracteristicas"
     },
     {
       "name": "Solutions",
@@ -84,8 +84,8 @@
       "url": "/careers"
     },
     {
-      "name": "Pricing",
-      "url": "/pricing"
+      "name": "Precios",
+      "url": "/precios"
     },
     {
       "name": "Our Blog",
